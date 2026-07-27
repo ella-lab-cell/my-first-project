@@ -688,6 +688,210 @@
       white-space: nowrap;
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* === Auth Page (登录/注册) === */
+    .auth-page {
+      background: linear-gradient(160deg, #FBF6EE 0%, #F3EBDD 50%, #E8DCC8 100%);
+    }
+    .auth-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 28px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .auth-logo {
+      width: 72px; height: 72px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #C9956B, #A9764E);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      box-shadow: 0 8px 24px rgba(169,118,78,0.25);
+      font-size: 36px;
+    }
+    .auth-title {
+      text-align: center;
+      font-family: var(--font-heading);
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+    .auth-subtitle {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+    .auth-tabs {
+      display: flex;
+      background: rgba(255,255,255,0.6);
+      border-radius: 14px;
+      padding: 4px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border-soft);
+    }
+    .auth-tab {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: transparent;
+      border-radius: 10px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .auth-tab.active {
+      background: var(--bg-secondary);
+      color: var(--primary-deep);
+      box-shadow: 0 2px 8px rgba(122,92,60,0.1);
+    }
+    .auth-form { display: none; }
+    .auth-form.active { display: block; animation: pageIn 0.28s ease; }
+    .input-group {
+      margin-bottom: 16px;
+    }
+    .input-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      display: block;
+    }
+    .input-field {
+      width: 100%;
+      height: 48px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 14px;
+      padding: 0 16px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--text-main);
+      background: var(--bg-secondary);
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    .input-field:focus { border-color: var(--primary-color); }
+    .input-field::placeholder { color: var(--text-soft); }
+    .input-prefix {
+      position: relative;
+    }
+    .input-prefix .input-field { padding-left: 44px; }
+    .input-prefix-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-soft);
+    }
+    .auth-btn {
+      width: 100%;
+      height: 50px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #C9956B, #A9764E);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 6px 18px rgba(169,118,78,0.2);
+      margin-top: 8px;
+    }
+    .auth-btn:active { transform: scale(0.98); }
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0;
+    }
+    .auth-divider::before, .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border-color);
+    }
+    .auth-divider span {
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+    .auth-third {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    .auth-third-btn {
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      border: 1.5px solid var(--border-color);
+      background: var(--bg-secondary);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .auth-third-btn:active { transform: scale(0.95); }
+    .auth-agreement {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: 16px;
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .auth-checkbox {
+      width: 16px; height: 16px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 5px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      cursor: pointer;
+      position: relative;
+      background: var(--bg-secondary);
+    }
+    .auth-checkbox.checked {
+      background: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+    .auth-checkbox.checked::after {
+      content: '';
+      position: absolute;
+      left: 4px; top: 1px;
+      width: 5px; height: 9px;
+      border: solid #fff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+    .auth-link {
+      color: var(--primary-deep);
+      font-weight: 600;
+    }
+    .auth-footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-top: 20px;
+    }
+    .logout-btn {
+      margin: 12px 20px 20px;
+      height: 46px;
+      border: 1.5px solid #E8D5C8;
+      border-radius: 14px;
+      background: transparent;
+      color: #C0392B;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all 0.2s ease;
+    }
+    .logout-btn:active { background: rgba(192,57,43,0.05); }
   </style>
 </head>
 <body>
@@ -698,8 +902,122 @@
       <!-- Toast -->
       <div class="toast" id="toast"></div>
 
+      <!-- Page: 登录/注册 -->
+      <div class="page active auth-page" id="page-auth">
+        <div class="status-bar">
+          <span>9:40</span>
+          <div class="status-icons">
+            <div class="signal"><span></span><span></span><span></span><span></span></div>
+            <span style="font-size:11px;">5G</span>
+            <div class="battery"><span></span></div>
+          </div>
+        </div>
+        <div class="auth-body">
+          <div class="auth-logo">🌿</div>
+          <div class="auth-title">知心问诊</div>
+          <div class="auth-subtitle">温暖陪伴每一次健康问询</div>
+
+          <div class="auth-tabs">
+            <button class="auth-tab active" type="button" onclick="switchAuthTab('login')">登录</button>
+            <button class="auth-tab" type="button" onclick="switchAuthTab('register')">注册</button>
+          </div>
+
+          <!-- Login Form -->
+          <div class="auth-form active" id="form-login">
+            <div class="input-group">
+              <label class="input-label">手机号</label>
+              <div class="input-prefix">
+                <span class="input-prefix-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                </span>
+                <input class="input-field" type="tel" placeholder="请输入手机号" value="138****5678" />
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">密码</label>
+              <div class="input-prefix">
+                <span class="input-prefix-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                </span>
+                <input class="input-field" type="password" placeholder="请输入密码" value="········" />
+              </div>
+            </div>
+            <button class="auth-btn" type="button" onclick="doLogin()">登 录</button>
+
+            <div class="auth-agreement">
+              <div class="auth-checkbox checked" onclick="this.classList.toggle('checked')"></div>
+              <span>我已阅读并同意 <span class="auth-link">《用户协议》</span> 和 <span class="auth-link">《隐私政策》</span>，知心问诊将依法保护我的健康数据</span>
+            </div>
+
+            <div class="auth-divider"><span>其他登录方式</span></div>
+            <div class="auth-third">
+              <div class="auth-third-btn" onclick="showToast('微信登录')">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="#9CB89A"><path d="M8.5 8.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm5 0c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm-1.5 5C9.5 13.5 7 15 7 17c0 2 2.5 3 5 3s5-1 5-3-2.5-3.5-5-3.5z M12 2C6.48 2 2 5.58 2 10c0 2.24 1.12 4.27 2.94 5.74L4 19l3.5-1.5C8.94 18.16 10.43 18.5 12 18.5c5.52 0 10-3.58 10-8.5S17.52 2 12 2z"/></svg>
+              </div>
+              <div class="auth-third-btn" onclick="showToast('支付宝登录')">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="#C9956B"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.5 13.5c-1 0-2-.5-3-1 1-1.5 1.5-3 1.5-4.5h-1v-1h2v-1h-4v1h2v1h-3v1h5c0 1-.5 2.5-1.5 3.5-1-1-2-2-2.5-3h-1c.5 1.5 1.5 3 3 4-1 .5-2 1-3.5 1v1c5 0 7-2 8-4h-1z"/></svg>
+              </div>
+              <div class="auth-third-btn" onclick="showToast('Apple 登录')">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="#3D3026"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83zM13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Register Form -->
+          <div class="auth-form" id="form-register">
+            <div class="input-group">
+              <label class="input-label">手机号</label>
+              <div class="input-prefix">
+                <span class="input-prefix-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                </span>
+                <input class="input-field" type="tel" placeholder="请输入手机号" />
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">验证码</label>
+              <div style="display:flex;gap:10px;">
+                <div class="input-prefix" style="flex:1;">
+                  <span class="input-prefix-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"></path><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"></path></svg>
+                  </span>
+                  <input class="input-field" type="text" placeholder="6位验证码" />
+                </div>
+                <button type="button" onclick="showToast('验证码已发送')" style="height:48px;padding:0 16px;border:1.5px solid var(--primary-color);border-radius:14px;background:transparent;color:var(--primary-deep);font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer;">获取验证码</button>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">设置密码</label>
+              <div class="input-prefix">
+                <span class="input-prefix-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                </span>
+                <input class="input-field" type="password" placeholder="8-20位，含字母和数字" />
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">昵称</label>
+              <div class="input-prefix">
+                <span class="input-prefix-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </span>
+                <input class="input-field" type="text" placeholder="给自己取个温暖的昵称" />
+              </div>
+            </div>
+            <button class="auth-btn" type="button" onclick="doRegister()">注 册</button>
+
+            <div class="auth-agreement">
+              <div class="auth-checkbox checked" onclick="this.classList.toggle('checked')"></div>
+              <span>注册即表示同意 <span class="auth-link">《用户协议》</span> 和 <span class="auth-link">《隐私政策》</span>，我的健康数据将端侧加密存储</span>
+            </div>
+          </div>
+
+          <div class="auth-footer">知心问诊 · 让健康触手可温 🌿</div>
+        </div>
+      </div>
+
       <!-- Page: 首页 -->
-      <div class="page active" id="page-home">
+      <div class="page" id="page-home">
         <div class="status-bar">
           <span id="clock">9:41</span>
           <div class="status-icons">
@@ -1235,10 +1553,14 @@
             </div>
           </div>
 
-          <div style="text-align:center;font-size:11px;color:var(--text-soft);padding:20px;">
+          <div style="text-align:center;font-size:11px;color:var(--text-soft);padding:20px 0 8px;">
             知心问诊 V1.0 · 让健康触手可及
           </div>
         </div>
+        <button class="logout-btn" type="button" onclick="doLogout()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          退出登录
+        </button>
         <nav class="page-tabbar">
           <button class="tab-item" type="button" onclick="navigate('page-home')">
             <div class="tab-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></div>
@@ -1263,6 +1585,37 @@
   </div>
 
   <script>
+    // === Auth tab switching ===
+    function switchAuthTab(tab) {
+      document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+      if (tab === 'login') {
+        document.querySelectorAll('.auth-tab')[0].classList.add('active');
+        document.getElementById('form-login').classList.add('active');
+      } else {
+        document.querySelectorAll('.auth-tab')[1].classList.add('active');
+        document.getElementById('form-register').classList.add('active');
+      }
+    }
+
+    // === Login ===
+    function doLogin() {
+      showToast('登录成功，欢迎回来 🌿');
+      setTimeout(() => { navigate('page-home'); }, 800);
+    }
+
+    // === Register ===
+    function doRegister() {
+      showToast('注册成功，已为你登录 🌿');
+      setTimeout(() => { navigate('page-home'); }, 800);
+    }
+
+    // === Logout ===
+    function doLogout() {
+      showToast('已安全退出');
+      setTimeout(() => { navigate('page-auth'); }, 600);
+    }
+
     // === Navigation ===
     function navigate(pageId) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));

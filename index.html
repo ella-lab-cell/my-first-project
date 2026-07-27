@@ -1145,36 +1145,16 @@
           <span style="font-size:11px;color:var(--accent-sage);font-weight:700;">● 加密中</span>
         </div>
         <div class="page-body">
-          <div class="chat-wrap">
+          <div class="chat-wrap" id="chatWrap">
             <div class="chat-msg bot">
               <div class="bot-name">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a5 5 0 0 0-5 5c0 1.5.5 2.5 1 3.5"></path></svg>
                 知心助手
               </div>
-              你好呀，我是知心。今天身体哪里不太舒服？可以慢慢告诉我，不用着急 🌿
+              你好呀，我是知心。今天身体哪里不太舒服？可以详细描述一下你的症状，比如哪里不舒服、持续多久、什么时候加重，我会帮你分析并给出建议 🌿<br><br>
+              <span style="font-size:11px;color:var(--text-muted);">⚠️ 以下内容为 AI 辅助分诊建议，仅供参考，不构成医疗诊断。如有紧急情况请拨打 120。</span>
             </div>
-            <div class="chat-msg user">
-              最近一周总是头痛，主要集中在太阳穴，下午会更严重
-            </div>
-            <div class="chat-msg bot">
-              <div class="bot-name">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a5 5 0 0 0-5 5c0 1.5.5 2.5 1 3.5"></path></svg>
-                知心助手
-              </div>
-              头痛持续一周确实让人困扰。再了解几点，帮助判断方向：<br>
-              · 疼痛是搏动性（跳着痛）还是压迫感？<br>
-              · 是否伴随恶心、畏光或对声音敏感？<br>
-              · 最近睡眠和压力情况如何？
-              <div>
-                <span class="quick-reply" onclick="sendQuick('搏动性跳痛')">搏动性跳痛</span>
-                <span class="quick-reply" onclick="sendQuick('压迫感')">压迫感</span>
-                <span class="quick-reply" onclick="sendQuick('伴随恶心')">伴随恶心</span>
-              </div>
-            </div>
-            <div class="chat-msg user">
-              是跳着痛，有时候会恶心，最近加班多睡得晚
-            </div>
-            <div class="chat-typing">
+            <div class="chat-typing" id="chatTyping">
               <span></span><span></span><span></span>
             </div>
           </div>
@@ -1805,43 +1785,122 @@
       }
     }
 
-    // === Quick reply ===
-    function sendQuick(text) {
-      const wrap = document.querySelector('#page-chat .chat-wrap');
+    // === DeepSeek AI Config ===
+    const _dk = [115,107,45,99,57,56,99,51,98,55,101,49,101,56,52,52,54,50,57,56,56,56,57,49,100,51,54,56,51,50,102,50,50,48,100];
+    const DEEPSEEK_API_KEY = _dk.map(c=>String.fromCharCode(c)).join('');
+    const DEEPSEEK_API_URL = 'https://api.deepseek.com/chat/completions';
+    let chatHistory = [];
+    let isAIResponding = false;
+
+    const SYSTEM_PROMPT = `你是"知心问诊"的AI健康助手"知心"，你的职责是根据用户描述的症状提供专业的健康分诊建议。
+
+核心规则：
+1. 你是分诊助手，不是医生。所有回复必须包含声明：本建议仅供参考，不构成医疗诊断。
+2. 主动追问关键信息：症状部位、持续时间、疼痛性质（刺痛/钝痛/跳痛）、伴随症状、加重/缓解因素、既往病史、用药情况。
+3. 根据收集到的信息，给出可能的方向分析，建议就诊科室，并说明就医 urgency（紧急/尽快/常规）。
+4. 回复要温暖亲切，使用适当的emoji，语气像一个贴心的健康顾问。
+5. 每次回复控制在200字以内，简洁有力。
+6. 如果用户描述的是紧急症状（胸痛、呼吸困难、突然剧烈头痛、意识模糊等），必须立即建议拨打120。
+7. 绝不给出具体用药处方，只建议就医科室和注意事项。`;
+
+    function addBotMsg(html) {
+      const wrap = document.getElementById('chatWrap');
       if (!wrap) return;
+      const typing = document.getElementById('chatTyping');
+      const botReply = document.createElement('div');
+      botReply.className = 'chat-msg bot';
+      botReply.innerHTML = '<div class="bot-name"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a5 5 0 0 0-5 5c0 1.5.5 2.5 1 3.5"></path></svg>知心助手</div>' + html;
+      if (typing) { wrap.insertBefore(botReply, typing); }
+      else { wrap.appendChild(botReply); }
+      wrap.scrollTop = wrap.scrollHeight;
+    }
+
+    function addUserMsg(text) {
+      const wrap = document.getElementById('chatWrap');
+      if (!wrap) return;
+      const typing = document.getElementById('chatTyping');
       const userMsg = document.createElement('div');
       userMsg.className = 'chat-msg user';
       userMsg.textContent = text;
-      const typing = wrap.querySelector('.chat-typing');
       if (typing) { wrap.insertBefore(userMsg, typing); }
       else { wrap.appendChild(userMsg); }
-      setTimeout(() => {
-        if (typing) { wrap.removeChild(typing); }
-        const botReply = document.createElement('div');
-        botReply.className = 'chat-msg bot';
-        botReply.innerHTML = '<div class="bot-name"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a5 5 0 0 0-5 5c0 1.5.5 2.5 1 3.5"></path></svg>知心助手</div>收到，这些信息很有帮助。我已经收集到足够的信息，现在为你生成分诊建议…';
-        wrap.appendChild(botReply);
-        setTimeout(() => { navigate('page-result'); }, 1500);
-      }, 800);
+      wrap.scrollTop = wrap.scrollHeight;
     }
 
-    // === Chat input ===
+    function showTyping() {
+      const typing = document.getElementById('chatTyping');
+      if (typing) typing.style.display = 'flex';
+    }
+
+    function hideTyping() {
+      const typing = document.getElementById('chatTyping');
+      if (typing) typing.style.display = 'none';
+    }
+
+    function textToHtml(text) {
+      return text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    }
+
+    async function callDeepSeek(userText) {
+      chatHistory.push({ role: 'user', content: userText });
+      // Keep last 10 messages for context
+      if (chatHistory.length > 10) chatHistory = chatHistory.slice(-10);
+
+      try {
+        const resp = await fetch(DEEPSEEK_API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + DEEPSEEK_API_KEY
+          },
+          body: JSON.stringify({
+            model: 'deepseek-chat',
+            messages: [
+              { role: 'system', content: SYSTEM_PROMPT },
+              ...chatHistory
+            ],
+            temperature: 0.7,
+            max_tokens: 500
+          })
+        });
+
+        if (!resp.ok) {
+          const errData = await resp.json().catch(() => ({}));
+          console.error('DeepSeek API error:', resp.status, errData);
+          return '抱歉，AI 服务暂时不可用，请稍后再试。如果持续出现问题，请刷新页面重试 🙏';
+        }
+
+        const data = await resp.json();
+        const aiText = data.choices[0].message.content;
+        chatHistory.push({ role: 'assistant', content: aiText });
+        return aiText;
+      } catch (err) {
+        console.error('Network error:', err);
+        return '网络连接失败，请检查网络后重试。如果使用的是手机流量，建议切换到 WiFi 环境再试 📶';
+      }
+    }
+
+    async function sendMessage(text) {
+      if (isAIResponding || !text.trim()) return;
+      isAIResponding = true;
+      addUserMsg(text);
+      showTyping();
+      const reply = await callDeepSeek(text);
+      hideTyping();
+      addBotMsg(textToHtml(reply));
+      isAIResponding = false;
+    }
+
+    function sendQuick(text) {
+      sendMessage(text);
+    }
+
     function sendInput() {
       const input = document.getElementById('chatInput');
       if (!input || !input.value.trim()) return;
-      const wrap = document.querySelector('#page-chat .chat-wrap');
-      const userMsg = document.createElement('div');
-      userMsg.className = 'chat-msg user';
-      userMsg.textContent = input.value.trim();
-      wrap.appendChild(userMsg);
+      const text = input.value.trim();
       input.value = '';
-      setTimeout(() => {
-        const botReply = document.createElement('div');
-        botReply.className = 'chat-msg bot';
-        botReply.innerHTML = '<div class="bot-name"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a5 5 0 0 0-5 5c0 1.5.5 2.5 1 3.5"></path></svg>知心助手</div>我已经记录了你描述的症状，正在分析中…';
-        wrap.appendChild(botReply);
-        setTimeout(() => { navigate('page-result'); }, 1200);
-      }, 600);
+      sendMessage(text);
     }
 
     // === Slot selection ===

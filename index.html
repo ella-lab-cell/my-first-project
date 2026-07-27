@@ -932,7 +932,7 @@
                 <span class="input-prefix-icon">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                 </span>
-                <input class="input-field" id="login-email" type="email" placeholder="请输入邮箱" />
+                <input class="input-field" id="login-email" type="email" placeholder="请输入邮箱" autocomplete="username" />
               </div>
             </div>
             <div class="input-group">
@@ -941,7 +941,7 @@
                 <span class="input-prefix-icon">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                 </span>
-                <input class="input-field" id="login-password" type="password" placeholder="请输入密码" />
+                <input class="input-field" id="login-password" type="password" placeholder="请输入密码" autocomplete="current-password" />
               </div>
             </div>
             <button class="auth-btn" type="button" onclick="doLogin()">登 录</button>
@@ -973,7 +973,7 @@
                 <span class="input-prefix-icon">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                 </span>
-                <input class="input-field" id="reg-email" type="email" placeholder="请输入邮箱" />
+                <input class="input-field" id="reg-email" type="email" placeholder="请输入邮箱" autocomplete="email" />
               </div>
             </div>
             <div class="input-group">
@@ -982,7 +982,7 @@
                 <span class="input-prefix-icon">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                 </span>
-                <input class="input-field" id="reg-password" type="password" placeholder="8-20位，含字母和数字" />
+                <input class="input-field" id="reg-password" type="password" placeholder="8-20位，含字母和数字" autocomplete="new-password" />
               </div>
             </div>
             <div class="input-group">
@@ -991,7 +991,7 @@
                 <span class="input-prefix-icon">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                 </span>
-                <input class="input-field" id="reg-password2" type="password" placeholder="请再次输入密码" />
+                <input class="input-field" id="reg-password2" type="password" placeholder="请再次输入密码" autocomplete="new-password" />
               </div>
             </div>
             <div class="input-group">
@@ -1724,16 +1724,20 @@
 
         if (error) throw error;
 
-        showToast('注册成功，欢迎加入知心问诊 🌿');
+        showToast('注册成功！已自动登录 🌿');
         setTimeout(() => {
           navigate('page-home');
           updateUserInfo();
-        }, 1000);
+        }, 800);
 
       } catch (error) {
         let msg = error.message || '注册失败';
-        if (msg.includes('already registered') || msg.includes('already been registered')) {
+        if (msg.includes('already registered') || msg.includes('already been registered') || msg.includes('User already registered')) {
           msg = '该邮箱已注册，请直接登录';
+        } else if (msg.includes('rate limit')) {
+          msg = '操作太频繁，请稍后再试';
+        } else if (msg.includes('weak password') || msg.includes('Password should be')) {
+          msg = '密码强度不够，请使用8位以上含字母和数字的组合';
         }
         showToast(msg);
       }
@@ -1763,8 +1767,12 @@
         }, 800);
       } catch (error) {
         let msg = error.message || '登录失败';
-        if (msg.includes('Invalid login')) {
-          msg = '邮箱或密码错误';
+        if (msg.includes('Invalid login') || msg.includes('invalid_credentials')) {
+          msg = '邮箱或密码错误，请检查后重试';
+        } else if (msg.includes('Email not confirmed')) {
+          msg = '邮箱未确认，请联系管理员';
+        } else if (msg.includes('rate limit')) {
+          msg = '操作太频繁，请1小时后再试';
         }
         showToast(msg);
       }

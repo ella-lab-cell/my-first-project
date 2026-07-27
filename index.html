@@ -893,6 +893,8 @@
     }
     .logout-btn:active { background: rgba(192,57,43,0.05); }
   </style>
+  <!-- Supabase JS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -925,12 +927,12 @@
           <!-- Login Form -->
           <div class="auth-form active" id="form-login">
             <div class="input-group">
-              <label class="input-label">手机号</label>
+              <label class="input-label">邮箱</label>
               <div class="input-prefix">
                 <span class="input-prefix-icon">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                 </span>
-                <input class="input-field" type="tel" placeholder="请输入手机号" value="138****5678" />
+                <input class="input-field" id="login-email" type="email" placeholder="请输入邮箱" />
               </div>
             </div>
             <div class="input-group">
@@ -939,7 +941,7 @@
                 <span class="input-prefix-icon">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                 </span>
-                <input class="input-field" type="password" placeholder="请输入密码" value="········" />
+                <input class="input-field" id="login-password" type="password" placeholder="请输入密码" />
               </div>
             </div>
             <button class="auth-btn" type="button" onclick="doLogin()">登 录</button>
@@ -966,12 +968,12 @@
           <!-- Register Form -->
           <div class="auth-form" id="form-register">
             <div class="input-group">
-              <label class="input-label">手机号</label>
+              <label class="input-label">邮箱</label>
               <div class="input-prefix">
                 <span class="input-prefix-icon">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                 </span>
-                <input class="input-field" type="tel" placeholder="请输入手机号" />
+                <input class="input-field" id="reg-email" type="email" placeholder="请输入邮箱" />
               </div>
             </div>
             <div class="input-group">
@@ -981,9 +983,9 @@
                   <span class="input-prefix-icon">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"></path><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"></path></svg>
                   </span>
-                  <input class="input-field" type="text" placeholder="6位验证码" />
+                  <input class="input-field" id="reg-code" type="text" placeholder="6位验证码" maxlength="6" />
                 </div>
-                <button type="button" onclick="showToast('验证码已发送')" style="height:48px;padding:0 16px;border:1.5px solid var(--primary-color);border-radius:14px;background:transparent;color:var(--primary-deep);font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer;">获取验证码</button>
+                <button type="button" id="send-code-btn" onclick="sendVerifyCode()" style="height:48px;padding:0 16px;border:1.5px solid var(--primary-color);border-radius:14px;background:transparent;color:var(--primary-deep);font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer;">获取验证码</button>
               </div>
             </div>
             <div class="input-group">
@@ -992,7 +994,7 @@
                 <span class="input-prefix-icon">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                 </span>
-                <input class="input-field" type="password" placeholder="8-20位，含字母和数字" />
+                <input class="input-field" id="reg-password" type="password" placeholder="8-20位，含字母和数字" />
               </div>
             </div>
             <div class="input-group">
@@ -1001,7 +1003,7 @@
                 <span class="input-prefix-icon">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 </span>
-                <input class="input-field" type="text" placeholder="给自己取个温暖的昵称" />
+                <input class="input-field" id="reg-nickname" type="text" placeholder="给自己取个温暖的昵称" />
               </div>
             </div>
             <button class="auth-btn" type="button" onclick="doRegister()">注 册</button>
@@ -1585,6 +1587,65 @@
   </div>
 
   <script>
+    // === Supabase Configuration ===
+    const SUPABASE_URL = 'https://ndoigkciuzyvxawahort.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_r4U6ExDMGm6MMTuX-6ub3A_Nha5OXHo';
+
+    let supabaseClient = null;
+    let isSupabaseReady = false;
+
+    // Initialize Supabase
+    if (typeof window.supabase !== 'undefined' && SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
+      try {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        isSupabaseReady = true;
+      } catch(e) {
+        console.error('Supabase init error:', e);
+      }
+    }
+
+    // === Check login state on page load ===
+    async function checkAuthState() {
+      if (!isSupabaseReady) return;
+      try {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (session) {
+          // Already logged in, go to home
+          navigate('page-home');
+          updateUserInfo();
+        }
+      } catch(e) {
+        console.error('Auth check error:', e);
+      }
+    }
+
+    // === Update user info on profile page ===
+    async function updateUserInfo() {
+      if (!isSupabaseReady) return;
+      try {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        if (user) {
+          const nickname = user.user_metadata?.nickname || user.email?.split('@')[0] || '用户';
+          // Update home greeting
+          const nameEl = document.querySelector('#page-home .proto-greeting .name');
+          if (nameEl) nameEl.textContent = '你好，' + nickname;
+          // Update profile page
+          const pNameEl = document.querySelector('#page-profile .p-name');
+          if (pNameEl) pNameEl.textContent = nickname;
+          const avatarEl = document.querySelector('#page-profile .avatar');
+          if (avatarEl) avatarEl.textContent = nickname.charAt(0);
+          const pSubEl = document.querySelector('#page-profile .p-sub');
+          if (pSubEl) {
+            const createdAt = new Date(user.created_at);
+            const days = Math.floor((Date.now() - createdAt.getTime()) / 86400000);
+            pSubEl.textContent = '守护你的每一次问诊 · 已加入 ' + days + ' 天';
+          }
+        }
+      } catch(e) {
+        console.error('Update user info error:', e);
+      }
+    }
+
     // === Auth tab switching ===
     function switchAuthTab(tab) {
       document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
@@ -1598,20 +1659,132 @@
       }
     }
 
-    // === Login ===
-    function doLogin() {
-      showToast('登录成功，欢迎回来 🌿');
-      setTimeout(() => { navigate('page-home'); }, 800);
+    // === Send verification code ===
+    let codeCountdown = 0;
+    async function sendVerifyCode() {
+      const email = document.getElementById('reg-email').value.trim();
+      if (!email) {
+        showToast('请先输入邮箱');
+        return;
+      }
+      if (!isSupabaseReady) {
+        showToast('后端服务未配置，请联系管理员');
+        return;
+      }
+
+      const btn = document.getElementById('send-code-btn');
+      btn.disabled = true;
+
+      try {
+        const { data, error } = await supabaseClient.auth.signInWithOtp({
+          email: email,
+          options: { shouldCreateUser: true }
+        });
+
+        if (error) throw error;
+
+        showToast('验证码已发送至邮箱，请查收 📮');
+        // Start countdown
+        codeCountdown = 60;
+        btn.style.opacity = '0.6';
+        const timer = setInterval(() => {
+          codeCountdown--;
+          btn.textContent = codeCountdown + 's 后重发';
+          if (codeCountdown <= 0) {
+            clearInterval(timer);
+            btn.textContent = '获取验证码';
+            btn.disabled = false;
+            btn.style.opacity = '1';
+          }
+        }, 1000);
+      } catch (error) {
+        showToast('发送失败: ' + (error.message || '未知错误'));
+        btn.disabled = false;
+      }
     }
 
     // === Register ===
-    function doRegister() {
-      showToast('注册成功，已为你登录 🌿');
-      setTimeout(() => { navigate('page-home'); }, 800);
+    async function doRegister() {
+      const email = document.getElementById('reg-email').value.trim();
+      const code = document.getElementById('reg-code').value.trim();
+      const password = document.getElementById('reg-password').value;
+      const nickname = document.getElementById('reg-nickname').value.trim();
+
+      if (!email) { showToast('请输入邮箱'); return; }
+      if (!code) { showToast('请输入验证码'); return; }
+      if (!password || password.length < 8) { showToast('密码至少8位'); return; }
+      if (!nickname) { showToast('请设置昵称'); return; }
+      if (!isSupabaseReady) { showToast('后端服务未配置'); return; }
+
+      try {
+        // Step 1: Verify OTP code
+        const { data: verifyData, error: verifyError } = await supabaseClient.auth.verifyOtp({
+          email: email,
+          token: code,
+          type: 'email'
+        });
+
+        if (verifyError) throw verifyError;
+
+        // Step 2: Set password and nickname
+        const { error: updateError } = await supabaseClient.auth.updateUser({
+          password: password,
+          data: { nickname: nickname }
+        });
+
+        if (updateError) throw updateError;
+
+        showToast('注册成功，欢迎加入知心问诊 🌿');
+        setTimeout(() => {
+          navigate('page-home');
+          updateUserInfo();
+        }, 1000);
+
+      } catch (error) {
+        let msg = error.message || '注册失败';
+        if (msg.includes('Token has expired') || msg.includes('invalid')) {
+          msg = '验证码无效或已过期，请重新获取';
+        }
+        showToast(msg);
+      }
+    }
+
+    // === Login ===
+    async function doLogin() {
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+
+      if (!email) { showToast('请输入邮箱'); return; }
+      if (!password) { showToast('请输入密码'); return; }
+      if (!isSupabaseReady) { showToast('后端服务未配置'); return; }
+
+      try {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+        if (error) throw error;
+
+        showToast('登录成功，欢迎回来 🌿');
+        setTimeout(() => {
+          navigate('page-home');
+          updateUserInfo();
+        }, 800);
+      } catch (error) {
+        let msg = error.message || '登录失败';
+        if (msg.includes('Invalid login')) {
+          msg = '邮箱或密码错误';
+        }
+        showToast(msg);
+      }
     }
 
     // === Logout ===
-    function doLogout() {
+    async function doLogout() {
+      if (isSupabaseReady) {
+        try { await supabaseClient.auth.signOut(); } catch(e) {}
+      }
       showToast('已安全退出');
       setTimeout(() => { navigate('page-auth'); }, 600);
     }
@@ -1697,6 +1870,11 @@
     }
     updateClock();
     setInterval(updateClock, 30000);
+
+    // Check auth state on load
+    window.addEventListener('load', function() {
+      setTimeout(checkAuthState, 500);
+    });
   </script>
 
 </body>

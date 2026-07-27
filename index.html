@@ -1338,54 +1338,26 @@
           </div>
 
           <div class="section-label">本月记录</div>
-
-          <div class="timeline-item">
-            <div class="tl-dot"></div>
-            <div class="tl-content">
-              <div class="tl-time">今天 09:45</div>
-              <div class="tl-title">偏头痛分诊</div>
-              <div class="tl-desc">疑似偏头痛 · 建议神经内科 · 已生成居家建议</div>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="tl-dot" style="background:var(--accent-sage);box-shadow:0 0 0 3px var(--accent-sage-light);"></div>
-            <div class="tl-content">
-              <div class="tl-time">07-22 14:20</div>
-              <div class="tl-title">睡眠改善随访</div>
-              <div class="tl-desc">失眠症状缓解 · 继续保持作息规律</div>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="tl-dot" style="background:var(--accent-clay);box-shadow:0 0 0 3px rgba(217,168,138,0.2);"></div>
-            <div class="tl-content">
-              <div class="tl-time">07-15 20:10</div>
-              <div class="tl-title">胃部不适咨询</div>
-              <div class="tl-desc">疑似饮食不当 · 建议清淡饮食 · 未就医</div>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="tl-dot"></div>
-            <div class="tl-content">
-              <div class="tl-time">07-03 10:35</div>
-              <div class="tl-title">体检报告解读</div>
-              <div class="tl-desc">血常规指标解读 · 未见明显异常</div>
-            </div>
+          <div id="historyTimeline"></div>
+          <div id="historyEmpty" style="text-align:center;padding:40px 0;color:var(--text-muted);font-size:13px;display:none;">
+            <div style="font-size:32px;margin-bottom:8px;">🌿</div>
+            还没有问诊记录<br>去首页开始第一次问诊吧
           </div>
 
           <div class="section-label">健康趋势</div>
           <div class="info-block">
             <div style="display:flex;justify-content:space-around;text-align:center;">
               <div>
-                <div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:var(--primary-deep);">3</div>
+                <div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:var(--primary-deep);" id="statTotal">0</div>
+                <div style="font-size:11px;color:var(--text-muted);">总问诊</div>
+              </div>
+              <div>
+                <div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:#5B7A59;" id="statMonth">0</div>
                 <div style="font-size:11px;color:var(--text-muted);">本月问诊</div>
               </div>
               <div>
-                <div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:#5B7A59;">2</div>
-                <div style="font-size:11px;color:var(--text-muted);">已缓解</div>
-              </div>
-              <div>
-                <div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:#A66B43;">1</div>
-                <div style="font-size:11px;color:var(--text-muted);">就医中</div>
+                <div style="font-family:var(--font-heading);font-size:24px;font-weight:700;color:#A66B43;" id="statToday">0</div>
+                <div style="font-size:11px;color:var(--text-muted);">今日问诊</div>
               </div>
             </div>
           </div>
@@ -1889,6 +1861,8 @@
       hideTyping();
       addBotMsg(textToHtml(reply));
       isAIResponding = false;
+      // Auto save to history
+      saveToHistory(text, reply);
     }
 
     function sendQuick(text) {
@@ -1902,6 +1876,120 @@
       input.value = '';
       sendMessage(text);
     }
+
+    // === Consultation History (localStorage) ===
+    const HISTORY_KEY = 'zhixin_history';
+
+    function getHistory() {
+      try {
+        return JSON.parse(localStorage.getItem(HISTORY_KEY)) || [];
+      } catch(e) { return []; }
+    }
+
+    function saveToHistory(userText, aiReply) {
+      const history = getHistory();
+      const now = new Date();
+      const record = {
+        id: Date.now(),
+        time: now.toISOString(),
+        title: userText.length > 20 ? userText.substring(0, 20) + '...' : userText,
+        summary: aiReply.length > 50 ? aiReply.substring(0, 50) + '...' : aiReply,
+        messages: [
+          { role: 'user', content: userText },
+          { role: 'assistant', content: aiReply }
+        ]
+      };
+      history.unshift(record);
+      // Keep last 50 records
+      if (history.length > 50) history.length = 50;
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+      renderHistory();
+    }
+
+    function formatTime(isoStr) {
+      const d = new Date(isoStr);
+      const now = new Date();
+      const pad = n => n.toString().padStart(2, '0');
+      const timeStr = pad(d.getHours()) + ':' + pad(d.getMinutes());
+      if (d.toDateString() === now.toDateString()) return '今天 ' + timeStr;
+      return (d.getMonth()+1) + '-' + pad(d.getDate()) + ' ' + timeStr;
+    }
+
+    function renderHistory() {
+      const timeline = document.getElementById('historyTimeline');
+      const empty = document.getElementById('historyEmpty');
+      const history = getHistory();
+
+      // Update stats
+      const statTotal = document.getElementById('statTotal');
+      const statMonth = document.getElementById('statMonth');
+      const statToday = document.getElementById('statToday');
+      if (statTotal) statTotal.textContent = history.length;
+      const now = new Date();
+      const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+      const todayStart = now.toDateString();
+      const monthCount = history.filter(r => r.time >= monthStart).length;
+      const todayCount = history.filter(r => new Date(r.time).toDateString() === todayStart).length;
+      if (statMonth) statMonth.textContent = monthCount;
+      if (statToday) statToday.textContent = todayCount;
+
+      if (!timeline) return;
+
+      if (history.length === 0) {
+        timeline.innerHTML = '';
+        if (empty) empty.style.display = 'block';
+        return;
+      }
+      if (empty) empty.style.display = 'none';
+
+      const dotColors = ['', 'var(--accent-sage)', 'var(--accent-clay)', 'var(--accent-sky)'];
+      let html = '';
+      history.forEach((r, i) => {
+        const color = dotColors[i % dotColors.length];
+        const style = color ? `background:${color};box-shadow:0 0 0 3px rgba(200,160,120,0.15);` : '';
+        html += '<div class="timeline-item" style="cursor:pointer;" onclick="viewRecord(' + i + ')">' +
+          '<div class="tl-dot" style="' + style + '"></div>' +
+          '<div class="tl-content">' +
+          '<div class="tl-time">' + formatTime(r.time) + '</div>' +
+          '<div class="tl-title">' + r.title + '</div>' +
+          '<div class="tl-desc">' + r.summary + '</div>' +
+          '</div></div>';
+      });
+      timeline.innerHTML = html;
+    }
+
+    function viewRecord(index) {
+      const history = getHistory();
+      if (!history[index]) return;
+      const record = history[index];
+      // Load this record into chat page
+      chatHistory = [{ role: 'system', content: SYSTEM_PROMPT }];
+      record.messages.forEach(m => {
+        chatHistory.push({ role: m.role, content: m.content });
+      });
+      // Clear chat and render messages
+      const wrap = document.getElementById('chatWrap');
+      if (!wrap) return;
+      // Remove all messages except typing indicator
+      const msgs = wrap.querySelectorAll('.chat-msg');
+      msgs.forEach(m => m.remove());
+      // Add disclaimer
+      const disclaimer = document.createElement('div');
+      disclaimer.className = 'chat-msg bot';
+      disclaimer.innerHTML = '<div class="bot-name"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a5 5 0 0 0-5 5c0 1.5.5 2.5 1 3.5"></path></svg>知心助手</div>' +
+        '<span style="font-size:11px;color:var(--text-muted);">⚠️ 历史问诊记录（' + formatTime(record.time) + '），可直接继续提问</span>';
+      wrap.insertBefore(disclaimer, document.getElementById('chatTyping'));
+      // Render messages
+      record.messages.forEach(m => {
+        if (m.role === 'user') addUserMsg(m.content);
+        else addBotMsg(textToHtml(m.content));
+      });
+      navigate('page-chat');
+      showToast('已加载历史记录，可继续提问');
+    }
+
+    // Render history on page load
+    renderHistory();
 
     // === Slot selection ===
     function selectSlot(el) {

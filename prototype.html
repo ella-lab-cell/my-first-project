@@ -1411,6 +1411,198 @@
         </div>
       </div>
 
+      <!-- Page: 个人信息 -->
+      <div class="page" id="page-personal-info">
+        <div class="status-bar">
+          <span>9:48</span>
+          <div class="status-icons">
+            <div class="signal"><span></span><span></span><span></span><span></span></div>
+            <span style="font-size:11px;">5G</span>
+            <div class="battery"><span></span></div>
+          </div>
+        </div>
+        <div class="page-header">
+          <button class="back-btn" type="button" onclick="navigate('page-profile')">‹</button>
+          <div class="page-title">个人信息</div>
+        </div>
+        <div class="page-body">
+          <div class="info-block" style="background:linear-gradient(135deg,var(--primary-light),transparent);border-color:var(--primary-color);text-align:center;padding:24px;margin-bottom:16px;">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--primary-color)" stroke-width="1.8" style="margin:0 auto 10px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
+            <div style="font-family:var(--font-heading);font-size:16px;font-weight:700;color:var(--primary-deep);margin-bottom:4px;">健康档案 · 加密存储</div>
+            <div style="font-size:12px;color:var(--text-muted);line-height:1.6;">你的信息仅用于问诊分诊，数据脱敏后上传至隐私服务</div>
+          </div>
+          <div class="section-label">基本信息</div>
+          <div style="background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:16px;padding:16px;margin-bottom:12px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div class="input-group">
+                <label class="input-label">姓名</label>
+                <input type="text" id="pi-name" class="input-field" placeholder="请输入真实姓名" style="width:100%;">
+              </div>
+              <div class="input-group">
+                <label class="input-label">性别</label>
+                <select id="pi-gender" class="input-field" style="width:100%;border:1px solid var(--border-color);border-radius:10px;padding:10px;font-size:14px;background:var(--bg-primary);color:var(--text-main);">
+                  <option value="">请选择</option><option value="男">男</option><option value="女">女</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label class="input-label">年龄</label>
+                <input type="number" id="pi-age" class="input-field" placeholder="岁" style="width:100%;" min="0" max="150">
+              </div>
+              <div class="input-group">
+                <label class="input-label">血型</label>
+                <select id="pi-blood" class="input-field" style="width:100%;border:1px solid var(--border-color);border-radius:10px;padding:10px;font-size:14px;background:var(--bg-primary);color:var(--text-main);">
+                  <option value="">未知</option><option value="A">A型</option><option value="B">B型</option><option value="AB">AB型</option><option value="O">O型</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="section-label">健康信息</div>
+          <div style="background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:16px;padding:16px;margin-bottom:12px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div class="input-group">
+                <label class="input-label">身高 (cm)</label>
+                <input type="number" id="pi-height" class="input-field" placeholder="cm" style="width:100%;" min="0" max="300">
+              </div>
+              <div class="input-group">
+                <label class="input-label">体重 (kg)</label>
+                <input type="number" id="pi-weight" class="input-field" placeholder="kg" style="width:100%;" min="0" max="500">
+              </div>
+            </div>
+            <div class="input-group" style="margin-top:12px;">
+              <label class="input-label">过敏史</label>
+              <input type="text" id="pi-allergy" class="input-field" placeholder="如：青霉素过敏、花粉过敏等，无则填"无"" style="width:100%;">
+            </div>
+            <div class="input-group" style="margin-top:12px;">
+              <label class="input-label">既往病史</label>
+              <textarea id="pi-history" class="input-field" placeholder="如：高血压、糖尿病等慢性病史，无则填"无"" style="width:100%;min-height:70px;resize:vertical;border:1px solid var(--border-color);border-radius:10px;padding:10px;font-size:14px;background:var(--bg-primary);color:var(--text-main);font-family:var(--font-body);"></textarea>
+            </div>
+          </div>
+          <div class="section-label">紧急联系人</div>
+          <div style="background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:16px;padding:16px;margin-bottom:12px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div class="input-group">
+                <label class="input-label">联系人姓名</label>
+                <input type="text" id="pi-contact-name" class="input-field" placeholder="紧急联系人" style="width:100%;">
+              </div>
+              <div class="input-group">
+                <label class="input-label">联系人电话</label>
+                <input type="tel" id="pi-contact-phone" class="input-field" placeholder="手机号" style="width:100%;">
+              </div>
+            </div>
+          </div>
+          <button style="width:100%;background:var(--primary-color);color:#fff;border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:20px;" onclick="savePersonalInfo()">保存并加密上传至隐私服务</button>
+        </div>
+      </div>
+
+      <!-- Page: 家庭医生 -->
+      <div class="page" id="page-family-doctor">
+        <div class="status-bar">
+          <span>9:48</span>
+          <div class="status-icons">
+            <div class="signal"><span></span><span></span><span></span><span></span></div>
+            <span style="font-size:11px;">5G</span>
+            <div class="battery"><span></span></div>
+          </div>
+        </div>
+        <div class="page-header">
+          <button class="back-btn" type="button" onclick="navigate('page-profile')">‹</button>
+          <div class="page-title">家庭医生</div>
+        </div>
+        <div class="page-body">
+          <div class="info-block" style="background:linear-gradient(135deg,var(--accent-sage-light),transparent);border-color:var(--accent-sage);text-align:center;padding:24px;margin-bottom:16px;">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--accent-sage)" stroke-width="1.8" style="margin:0 auto 10px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            <div style="font-family:var(--font-heading);font-size:16px;font-weight:700;color:#5B7A59;margin-bottom:4px;">绑定你的家庭医生</div>
+            <div style="font-size:12px;color:var(--text-muted);line-height:1.6;">问诊记录将自动同步给医生，但仅展示关键信息摘要</div>
+          </div>
+          <div id="fd-saved" style="display:none;background:var(--bg-secondary);border:1px solid var(--accent-sage);border-radius:16px;padding:18px;margin-bottom:16px;text-align:center;">
+            <div style="font-size:28px;margin-bottom:8px;">👨‍⚕️</div>
+            <div id="fd-saved-name" style="font-family:var(--font-heading);font-size:18px;font-weight:700;color:var(--text-main);margin-bottom:4px;"></div>
+            <div id="fd-saved-info" style="font-size:12px;color:var(--text-muted);margin-bottom:12px;"></div>
+            <button style="background:var(--bg-primary);border:1px solid var(--border-color);border-radius:10px;padding:8px 18px;font-size:13px;color:var(--text-muted);cursor:pointer;" onclick="editFamilyDoctor()">重新编辑</button>
+          </div>
+          <div id="fd-form" style="background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:16px;padding:16px;margin-bottom:12px;">
+            <div class="input-group">
+              <label class="input-label">医生姓名</label>
+              <input type="text" id="fd-name" class="input-field" placeholder="请输入家庭医生姓名" style="width:100%;">
+            </div>
+            <div class="input-group">
+              <label class="input-label">所属医院</label>
+              <input type="text" id="fd-hospital" class="input-field" placeholder="如：协和医院" style="width:100%;">
+            </div>
+            <div class="input-group">
+              <label class="input-label">科室</label>
+              <input type="text" id="fd-dept" class="input-field" placeholder="如：内科、全科" style="width:100%;">
+            </div>
+            <div class="input-group">
+              <label class="input-label">联系电话</label>
+              <input type="tel" id="fd-phone" class="input-field" placeholder="医生或诊所电话" style="width:100%;">
+            </div>
+            <div class="input-group">
+              <label class="input-label">备注</label>
+              <input type="text" id="fd-note" class="input-field" placeholder="如：每周三下午坐诊" style="width:100%;">
+            </div>
+          </div>
+          <button style="width:100%;background:var(--primary-color);color:#fff;border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:20px;" onclick="saveFamilyDoctor()">保存家庭医生信息</button>
+        </div>
+      </div>
+
+      <!-- Page: 家庭成员 -->
+      <div class="page" id="page-family-member">
+        <div class="status-bar">
+          <span>9:48</span>
+          <div class="status-icons">
+            <div class="signal"><span></span><span></span><span></span><span></span></div>
+            <span style="font-size:11px;">5G</span>
+            <div class="battery"><span></span></div>
+          </div>
+        </div>
+        <div class="page-header">
+          <button class="back-btn" type="button" onclick="navigate('page-profile')">‹</button>
+          <div class="page-title">家庭成员</div>
+        </div>
+        <div class="page-body">
+          <div class="info-block" style="background:linear-gradient(135deg,var(--accent-clay-light, rgba(217,168,138,0.18)),transparent);border-color:var(--accent-clay);text-align:center;padding:24px;margin-bottom:16px;">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--accent-clay)" stroke-width="1.8" style="margin:0 auto 10px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <div style="font-family:var(--font-heading);font-size:16px;font-weight:700;color:#A66B43;margin-bottom:4px;">管理家庭成员</div>
+            <div style="font-size:12px;color:var(--text-muted);line-height:1.6;">家庭成员健康信息将同步到问诊记录中，便于医生了解家庭病史</div>
+          </div>
+          <div id="fm-list"></div>
+          <div id="fm-form" style="display:none;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:16px;padding:16px;margin-bottom:12px;">
+            <div class="input-group">
+              <label class="input-label">姓名</label>
+              <input type="text" id="fm-name" class="input-field" placeholder="家庭成员姓名" style="width:100%;">
+            </div>
+            <div class="input-group">
+              <label class="input-label">关系</label>
+              <select id="fm-relation" class="input-field" style="width:100%;border:1px solid var(--border-color);border-radius:10px;padding:10px;font-size:14px;background:var(--bg-primary);color:var(--text-main);">
+                <option value="">请选择</option><option value="配偶">配偶</option><option value="父亲">父亲</option><option value="母亲">母亲</option><option value="儿子">儿子</option><option value="女儿">女儿</option><option value="兄弟">兄弟</option><option value="姐妹">姐妹</option><option value="其他">其他</option>
+              </select>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div class="input-group">
+                <label class="input-label">年龄</label>
+                <input type="number" id="fm-age" class="input-field" placeholder="岁" style="width:100%;" min="0" max="150">
+              </div>
+              <div class="input-group">
+                <label class="input-label">性别</label>
+                <select id="fm-gender" class="input-field" style="width:100%;border:1px solid var(--border-color);border-radius:10px;padding:10px;font-size:14px;background:var(--bg-primary);color:var(--text-main);">
+                  <option value="">请选择</option><option value="男">男</option><option value="女">女</option>
+                </select>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">健康备注</label>
+              <input type="text" id="fm-note" class="input-field" placeholder="如：高血压、糖尿病史等" style="width:100%;">
+            </div>
+            <div style="display:flex;gap:10px;margin-top:12px;">
+              <button style="flex:1;background:var(--primary-color);color:#fff;border:none;border-radius:10px;padding:10px;font-size:14px;font-weight:700;cursor:pointer;" onclick="saveFamilyMember()">保存</button>
+              <button style="flex:1;background:var(--bg-primary);border:1px solid var(--border-color);border-radius:10px;padding:10px;font-size:14px;color:var(--text-muted);cursor:pointer;" onclick="cancelFamilyMember()">取消</button>
+            </div>
+          </div>
+          <button id="fm-add-btn" style="width:100%;background:var(--bg-secondary);border:2px dashed var(--border-color);border-radius:14px;padding:14px;font-size:14px;font-weight:700;color:var(--primary-color);cursor:pointer;margin-bottom:20px;" onclick="showAddFamilyMember()">+ 添加家庭成员</button>
+        </div>
+      </div>
+
       <!-- Page: 我的 -->
       <div class="page" id="page-profile">
         <div class="status-bar">
@@ -1459,25 +1651,25 @@
               <div class="mi-text">隐私中心</div>
               <div class="mi-arrow">›</div>
             </div>
-            <div class="menu-item">
+            <div class="menu-item" onclick="navigate('page-personal-info')">
               <div class="mi-icon">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </div>
+              <div class="mi-text">个人信息</div>
+              <div class="mi-arrow">›</div>
+            </div>
+            <div class="menu-item" onclick="navigate('page-family-member')">
+              <div class="mi-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
               </div>
               <div class="mi-text">家庭成员</div>
               <div class="mi-arrow">›</div>
             </div>
-            <div class="menu-item">
+            <div class="menu-item" onclick="navigate('page-family-doctor')">
               <div class="mi-icon">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
               </div>
               <div class="mi-text">家庭医生</div>
-              <div class="mi-arrow">›</div>
-            </div>
-            <div class="menu-item">
-              <div class="mi-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-              </div>
-              <div class="mi-text">设置</div>
               <div class="mi-arrow">›</div>
             </div>
           </div>
@@ -2200,6 +2392,241 @@
       if (history.length > 50) history.length = 50;
       localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
     }
+
+    // === Personal Info ===
+    const PERSONAL_INFO_KEY = 'zhixin_personal_info';
+
+    function savePersonalInfo() {
+      const data = {
+        name: (document.getElementById('pi-name') || {}).value || '',
+        gender: (document.getElementById('pi-gender') || {}).value || '',
+        age: (document.getElementById('pi-age') || {}).value || '',
+        blood: (document.getElementById('pi-blood') || {}).value || '',
+        height: (document.getElementById('pi-height') || {}).value || '',
+        weight: (document.getElementById('pi-weight') || {}).value || '',
+        allergy: (document.getElementById('pi-allergy') || {}).value || '',
+        history: (document.getElementById('pi-history') || {}).value || '',
+        contactName: (document.getElementById('pi-contact-name') || {}).value || '',
+        contactPhone: (document.getElementById('pi-contact-phone') || {}).value || ''
+      };
+      localStorage.setItem(PERSONAL_INFO_KEY, JSON.stringify(data));
+      showToast('个人信息已加密上传至隐私服务 ✓');
+      setTimeout(() => navigate('page-profile'), 800);
+    }
+
+    function loadPersonalInfo() {
+      try {
+        const data = JSON.parse(localStorage.getItem(PERSONAL_INFO_KEY));
+        if (!data) return;
+        const fields = {
+          'pi-name': data.name, 'pi-gender': data.gender, 'pi-age': data.age,
+          'pi-blood': data.blood, 'pi-height': data.height, 'pi-weight': data.weight,
+          'pi-allergy': data.allergy, 'pi-history': data.history,
+          'pi-contact-name': data.contactName, 'pi-contact-phone': data.contactPhone
+        };
+        Object.keys(fields).forEach(id => {
+          const el = document.getElementById(id);
+          if (el && fields[id]) el.value = fields[id];
+        });
+      } catch(e) {}
+    }
+
+    function getPersonalInfo() {
+      try {
+        return JSON.parse(localStorage.getItem(PERSONAL_INFO_KEY));
+      } catch(e) { return null; }
+    }
+
+    // === Family Doctor ===
+    const FAMILY_DOCTOR_KEY = 'zhixin_family_doctor';
+
+    function saveFamilyDoctor() {
+      const data = {
+        name: (document.getElementById('fd-name') || {}).value || '',
+        hospital: (document.getElementById('fd-hospital') || {}).value || '',
+        dept: (document.getElementById('fd-dept') || {}).value || '',
+        phone: (document.getElementById('fd-phone') || {}).value || '',
+        note: (document.getElementById('fd-note') || {}).value || ''
+      };
+      if (!data.name && !data.hospital) {
+        showToast('请至少填写医生姓名和所属医院');
+        return;
+      }
+      localStorage.setItem(FAMILY_DOCTOR_KEY, JSON.stringify(data));
+      showToast('家庭医生信息已保存 ✓');
+      showFamilyDoctorSaved(data);
+    }
+
+    function showFamilyDoctorSaved(data) {
+      const form = document.getElementById('fd-form');
+      const saved = document.getElementById('fd-saved');
+      const savedName = document.getElementById('fd-saved-name');
+      const savedInfo = document.getElementById('fd-saved-info');
+      if (form) form.style.display = 'none';
+      if (saved) saved.style.display = 'block';
+      if (savedName) savedName.textContent = data.name || '未命名医生';
+      if (savedInfo) savedInfo.textContent = (data.hospital || '') + (data.dept ? ' · ' + data.dept : '') + (data.phone ? ' · ' + data.phone : '');
+    }
+
+    function editFamilyDoctor() {
+      const form = document.getElementById('fd-form');
+      const saved = document.getElementById('fd-saved');
+      if (form) form.style.display = 'block';
+      if (saved) saved.style.display = 'none';
+    }
+
+    function loadFamilyDoctor() {
+      try {
+        const data = JSON.parse(localStorage.getItem(FAMILY_DOCTOR_KEY));
+        if (!data) return;
+        const fields = {
+          'fd-name': data.name, 'fd-hospital': data.hospital,
+          'fd-dept': data.dept, 'fd-phone': data.phone, 'fd-note': data.note
+        };
+        Object.keys(fields).forEach(id => {
+          const el = document.getElementById(id);
+          if (el && fields[id]) el.value = fields[id];
+        });
+        if (data.name || data.hospital) showFamilyDoctorSaved(data);
+      } catch(e) {}
+    }
+
+    function getFamilyDoctor() {
+      try {
+        return JSON.parse(localStorage.getItem(FAMILY_DOCTOR_KEY));
+      } catch(e) { return null; }
+    }
+
+    // === Family Members ===
+    const FAMILY_MEMBERS_KEY = 'zhixin_family_members';
+
+    function getFamilyMembers() {
+      try {
+        return JSON.parse(localStorage.getItem(FAMILY_MEMBERS_KEY)) || [];
+      } catch(e) { return []; }
+    }
+
+    function renderFamilyMembers() {
+      const list = document.getElementById('fm-list');
+      const members = getFamilyMembers();
+      if (!list) return;
+      if (members.length === 0) {
+        list.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text-muted);font-size:13px;">暂无家庭成员，点击下方按钮添加</div>';
+        return;
+      }
+      let html = '';
+      members.forEach((m, i) => {
+        html += '<div style="background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:14px;padding:14px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;">' +
+          '<div style="display:flex;align-items:center;gap:12px;">' +
+          '<div style="width:40px;height:40px;border-radius:50%;background:var(--accent-clay);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex-shrink:0;">' + (m.name ? m.name.charAt(0) : '家') + '</div>' +
+          '<div>' +
+          '<div style="font-size:14px;font-weight:700;color:var(--text-main);">' + (m.name || '未命名') + ' <span style="font-size:12px;color:var(--text-muted);font-weight:400;">' + (m.relation || '') + '</span></div>' +
+          '<div style="font-size:12px;color:var(--text-muted);">' + (m.gender || '') + (m.age ? ' · ' + m.age + '岁' : '') + (m.note ? ' · ' + m.note : '') + '</div>' +
+          '</div></div>' +
+          '<button style="background:none;border:none;color:#C0392B;font-size:20px;cursor:pointer;padding:8px;" onclick="deleteFamilyMember(' + i + ')" title="删除">×</button></div>';
+      });
+      list.innerHTML = html;
+    }
+
+    function showAddFamilyMember() {
+      const form = document.getElementById('fm-form');
+      const btn = document.getElementById('fm-add-btn');
+      if (form) form.style.display = 'block';
+      if (btn) btn.style.display = 'none';
+      // Clear form
+      ['fm-name','fm-relation','fm-age','fm-gender','fm-note'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+    }
+
+    function cancelFamilyMember() {
+      const form = document.getElementById('fm-form');
+      const btn = document.getElementById('fm-add-btn');
+      if (form) form.style.display = 'none';
+      if (btn) btn.style.display = 'block';
+    }
+
+    function saveFamilyMember() {
+      const data = {
+        name: (document.getElementById('fm-name') || {}).value || '',
+        relation: (document.getElementById('fm-relation') || {}).value || '',
+        age: (document.getElementById('fm-age') || {}).value || '',
+        gender: (document.getElementById('fm-gender') || {}).value || '',
+        note: (document.getElementById('fm-note') || {}).value || ''
+      };
+      if (!data.name) {
+        showToast('请填写家庭成员姓名');
+        return;
+      }
+      const members = getFamilyMembers();
+      members.push(data);
+      localStorage.setItem(FAMILY_MEMBERS_KEY, JSON.stringify(members));
+      showToast('家庭成员已添加 ✓');
+      cancelFamilyMember();
+      renderFamilyMembers();
+    }
+
+    function deleteFamilyMember(index) {
+      const members = getFamilyMembers();
+      if (index < 0 || index >= members.length) return;
+      members.splice(index, 1);
+      localStorage.setItem(FAMILY_MEMBERS_KEY, JSON.stringify(members));
+      renderFamilyMembers();
+      showToast('已删除');
+    }
+
+    // === Inject personal/family info into history ===
+    const _origSaveToHistory = saveToHistory;
+    saveToHistory = function(userText, aiReply) {
+      const history = getHistory();
+      const now = new Date();
+      // Build metadata from personal info, family doctor, family members
+      let meta = [];
+      const pi = getPersonalInfo();
+      if (pi && (pi.name || pi.age || pi.gender)) {
+        const parts = [];
+        if (pi.name) parts.push('本人：' + pi.name);
+        if (pi.gender) parts.push(pi.gender);
+        if (pi.age) parts.push(pi.age + '岁');
+        if (pi.allergy) parts.push('过敏：' + pi.allergy);
+        if (pi.history) parts.push('病史：' + pi.history);
+        if (parts.length > 0) meta.push(parts.join('，'));
+      }
+      const fd = getFamilyDoctor();
+      if (fd && fd.name) {
+        meta.push('家庭医生：' + fd.name + (fd.hospital ? '（' + fd.hospital + '）' : ''));
+      }
+      const fm = getFamilyMembers();
+      if (fm.length > 0) {
+        const fmStr = fm.map(m => m.name + (m.relation ? '(' + m.relation + ')' : '')).join('、');
+        if (fmStr) meta.push('家庭成员：' + fmStr);
+      }
+      const record = {
+        id: Date.now(),
+        time: now.toISOString(),
+        title: userText.length > 20 ? userText.substring(0, 20) + '...' : userText,
+        summary: aiReply.length > 50 ? aiReply.substring(0, 50) + '...' : aiReply,
+        meta: meta.join(' | '),
+        messages: [
+          { role: 'user', content: userText },
+          { role: 'assistant', content: aiReply }
+        ]
+      };
+      history.unshift(record);
+      if (history.length > 50) history.length = 50;
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+      renderHistory();
+    };
+
+    // Override navigate to auto-load data when entering pages
+    const _origNavigate = navigate;
+    navigate = function(pageId) {
+      _origNavigate(pageId);
+      if (pageId === 'page-personal-info') loadPersonalInfo();
+      if (pageId === 'page-family-doctor') loadFamilyDoctor();
+      if (pageId === 'page-family-member') renderFamilyMembers();
+    };
   </script>
 
 </body>
